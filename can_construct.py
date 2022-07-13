@@ -2,37 +2,30 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import copy
 
 
-def can_construct(target_sum, numberlist, memo=None):
+def can_construct(target, word_bank, memo=None):
     if memo is None:
         memo = {}
-    if target_sum in memo:
-        return memo[target_sum]
-    if target_sum == 0:
-        return []
-    if target_sum < 0:
-        return None
-    shortest_combination = None
-    for num in numberlist:
-        remainder = target_sum - num
-        remainder_combination = can_construct(remainder, numberlist, memo)
-        if remainder_combination is not None:
-            remainder_combination_copy = copy.deepcopy(remainder_combination)
-            remainder_combination_copy.append(num)
-            combination = remainder_combination_copy
-            if (shortest_combination is None) or (len(combination) < len(shortest_combination)):
-                shortest_combination = combination
+    if target in memo:
+        return memo[target]
+    if target == '':
+        return True
+    for word in word_bank:
+        if target.startswith(word):
+            suffix = target[len(word):len(target)]
+            if can_construct(suffix, word_bank, memo):
+                memo[target] = True
+                return True
 
-    memo[target_sum] = shortest_combination
-    return shortest_combination
+    memo[target] = False
+    return False
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # print(can_construct(7, [5, 3, 4, 7]))
-    # print(can_construct(8, [2, 3, 5]))
-    print(can_construct(8, [1, 4, 5]))
-    print(can_construct(100, [1, 2, 5, 25]))
-    # print(can_construct(308, [6, 14, 20]))
+    print(can_construct('abcdef', ['ab', 'abc', 'cd', 'def', 'abcd']))
+    print(can_construct('skateboard', ['bo', 'rd', 'ate', 't', 'ska', 'sk', 'boar']))
+    print(can_construct('enterapotentpot', ['a', 'p', 'ent', 'enter', 'ot', 'o', 't']))
+    print(can_construct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef',
+                        ['e', 'ee', 'eee', 'eeee', 'eeeee', 'eeeeee']))

@@ -35,4 +35,4 @@ if __name__ == '__main__':
     # print(best_sum(8, [2, 3, 5]))
     print(best_sum(8, [1, 4, 5]))
     print(best_sum(100, [1, 2, 5, 25]))
-    # print(best_sum(308, [6, 14, 20]))
+    print(best_sum(308, [6, 14, 20]))
